@@ -1,55 +1,63 @@
 gulp = require('gulp')
-coffee = require('gulp-coffee')
-concat = require('gulp-concat')
-uglify = require('gulp-uglify')
-imagemin = require('gulp-imagemin')
+gulpLoadPlugins = require('gulp-load-plugins')
+plugins = gulpLoadPlugins()
 rimraf = require('rimraf')
-bower = require('gulp-bower')
-templateCache = require('gulp-angular-templatecache')
-coffeelint = require('gulp-coffeelint')
-sass = require('gulp-ruby-sass')
-minifyCSS = require('gulp-minify-css')
-nodemon = require('gulp-nodemon')
-clean = require('gulp-clean')
-streamqueue = require('streamqueue')
-jshint = require('gulp-jshint')
-htmlhint = require('gulp-htmlhint')
-protractor = require('gulp-protractor').protractor
 
 
 paths = {
-  scripts: ['client/js/**/*.coffee', '!client/external/**/*.coffee'],
-  images: 'client/img/**/*'
+  scripts: ['app/scripts**/*.coffee', '!app/external/**/*.coffee'],
+  images: 'app/images/**/*',
+  stylesheets: 'app/stylesheets/*.sass'
 }
 
 vendor = [
-    "bower_components/jquery/dist/jquery.js",
-    "bower_components/angular/angular.js",
-    "bower_components/bootstrap-sass/dist/js/bootstrap.js",
-    "bower_components/underscore/underscore.js"
+  "app/vendor/angular/angular.js",
+  "app/vendor/bootstrap-sass/affix.js",
+  "app/vendor/bootstrap-sass/alert.js",
+  "app/vendor/bootstrap-sass/button.js",
+  "app/vendor/bootstrap-sass/carousel.js",
+  "app/vendor/bootstrap-sass/collapse.js",
+  "app/vendor/bootstrap-sass/dropdown.js",
+  "app/vendor/bootstrap-sass/modal.js",
+  "app/vendor/bootstrap-sass/popover.js",
+  "app/vendor/bootstrap-sass/scrollspy.js",
+  "app/vendor/bootstrap-sass/tab.js",
+  "app/vendor/bootstrap-sass/tooltip.js",
+  "app/vendor/bootstrap-sass/transition.js",
+  "app/vendor/jquery/jquery.js",
+  "app/vendor/underscore/underscore.js"
 ]
 
 gulp.task('clean', (cb) ->
-  rimraf('build/', cb))
+  rimraf('generated/', cb))
 
 gulp.task('scripts', ['clean'], ->
   return gulp.src(paths.scripts)
-    .pipe(coffee())
-    .pipe(uglify())
-    .pipe(concat('all.min.js'))
-    .pipe(gulp.dest('build/js')))
+    .pipe(plugins.coffee())
+    .pipe(plugins.concat('nightride.min.js'))
+    .pipe(plugins.ngmin({dynamic: true}))
+    .pipe(plugins.uglify())
+    .pipe(gulp.dest('generated/js')))
 
 gulp.task('images', ['clean'], ->
  return gulp.src(paths.images)
-    .pipe(imagemin({optimizationLevel: 5}))
-    .pipe(gulp.dest('build/img')))
+    .pipe(plugins.imagemin({optimizationLevel: 5}))
+    .pipe(gulp.dest('generated/img')))
 
 gulp.task('watch', ->
   gulp.watch(paths.scripts, ['scripts'])
-  gulp.watch(paths.images, ['images']))
+  gulp.watch(paths.images, ['images'])
+  gulp.watch(paths.stylesheets, ['gulp-sass']))
+
+gulp.task('vendor', ['bower'], ->
+    return gulp.src(vendor)
+      .pipe(plugins.concat('vendor.js'))
+      .pipe(plugins.ngmin())
+      .pipe(plugins.uglify())
+      .pipe(gulp.dest('generated/js')))
 
 gulp.task('bower', ->
-  return bower()
-    .pipe(gulp.dest('lib/')))
+  return plugins.bower()
+    .pipe(gulp.dest('app/vendor/')))
 
-gulp.task 'default', ['bower','scripts', 'images', 'watch']
+gulp.task 'default', ['bower','scripts', 'vendor', 'images', 'watch']
