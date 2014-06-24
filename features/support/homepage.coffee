@@ -1,6 +1,5 @@
 assert = require 'assert'
 path = require 'path'
-
 protractor = require 'protractor'
 webdriver = require 'selenium-webdriver'
 
@@ -11,12 +10,13 @@ driver = new webdriver.Builder().
 
 driver.manage().timeouts().setScriptTimeout(100000)
 
+# ptor = protractor.wrapDriver(driver, "http://localhost:3000", "body")
 ptor = protractor.wrapDriver driver
 
 class World
   constructor: (callback) ->
     @browser = ptor
-    @By = protractor.By
+    @By = ptor.driver.By
     @assert = assert
     callback()
 

@@ -2,7 +2,7 @@
   "name": "gulp-angular-template",
   "version": "0.0.0",
   "description": "",
-  "main": "Gulpfile.js",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,7 +29,7 @@
     "gulp-ngmin": "^0.3.0",
     "gulp-nodemon": "^1.0.4",
     "gulp-sass": "^0.7.2",
-    "protractor": "^0.24.2",
+    "protractor": "0.24.2",
     "streamqueue": "^0.1.1",
     "gulp-if": "^1.2.1",
     "express": "^4.4.3",
@@ -41,7 +41,6 @@
     "jasmine-node": "^1.14.3",
     "gulp-open": "^0.2.8",
     "filed": "^0.1.0",
-    "cucumber": "^0.4.0",
     "gulp-exec": "^2.0.1",
     "selenium-webdriver": "^2.42.1",
     "assert": "^1.1.1",

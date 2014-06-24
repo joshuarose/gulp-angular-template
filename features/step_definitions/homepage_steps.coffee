@@ -1,3 +1,5 @@
+protractor = (require 'protractor').getInstance()
+
 module.exports = ->
   @World = require('../support/homepage.coffee').World
 
@@ -6,10 +8,11 @@ module.exports = ->
       callback()
 
   @When /I wait for angular/, (callback) ->
-    console.log "waiting..."
+    console.log @browser
+    console.log @By
     callback()
 
   @Then /I should see content/, (callback) ->
-    @browser.findElement(@By.id 'test').getText().then (text) ->
-      @assert.equal text, "Content2"
+    # @browser.element(@By.id 'test').getAttribute('value').then (text) ->
+    #   @assert.equal text, "Content2"
       callback()
