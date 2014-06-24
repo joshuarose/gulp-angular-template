@@ -11,7 +11,7 @@ gulpif = require 'gulp-if'
 streamqueue = require 'streamqueue'
 
 module.exports = (gulp, notify, devEnv) ->
-  gulp.task "coffee", ->
+  gulp.task "coffee", ['bower'], ->
     streamqueue(
       objectMode: true,
       gulp.src(paths.scripts)

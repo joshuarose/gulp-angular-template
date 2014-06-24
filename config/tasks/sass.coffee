@@ -6,7 +6,7 @@ gulpif = require 'gulp-if'
 livereload = require 'gulp-livereload'
 
 module.exports = (gulp, notify, devEnv) ->
-  gulp.task "sass", ->
+  gulp.task "sass", ['bower'], ->
     gulp.src(vendor.styles.concat [ "app/styles/main.sass"])
       .pipe(sass(sourcemap: false))
       .pipe(concat("app.css"))

@@ -4,4 +4,5 @@ module.exports = (gulp) ->
     "vendor"
     "coffee"
     "sass"
+    "images"
   ]

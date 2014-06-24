@@ -9,10 +9,10 @@ module.exports = (gulp) ->
         "app/"
         "_site/"
         "config/"
-        "generated/"
-        "spec/"
+        "app/generated/"
+        "app/features/"
         "tmp/"
-        "vendor/"
+        "app/vendor/"
       ]
     livereload.listen()
     return
